@@ -149,28 +149,6 @@ export default function App() {
             />
             <button onClick={applyCustom}>練這個字</button>
           </div>
-
-          <div className="info-card">
-            <h2>📖 基本資訊</h2>
-            <dl className="info-list">
-              <div className="info-row">
-                <dt>注音</dt>
-                <dd>{h?.bopomofo ?? "—"}</dd>
-              </div>
-              <div className="info-row">
-                <dt>拼音</dt>
-                <dd>{h?.pinyin ?? "—"}</dd>
-              </div>
-              <div className="info-row">
-                <dt>部首</dt>
-                <dd>{dict?.radical ?? getRadical(char)}</dd>
-              </div>
-              <div className="info-row">
-                <dt>總筆畫</dt>
-                <dd>{dict?.stroke_count ?? strokeCount ?? "—"}</dd>
-              </div>
-            </dl>
-          </div>
         </section>
         <div className="col">
           <div className="mode-row">
@@ -196,10 +174,47 @@ export default function App() {
             onSessionComplete={onSessionComplete}
           />
           {savedMsg && <p className="save-msg">💾 {savedMsg}</p>}
+
+          <section className="panel">
+            <h2>🏅 挑戰排行榜</h2>
+            {leaders.length === 0 && <p className="muted">還沒有紀錄，快來當第一名！</p>}
+            <ol className="leaders">
+              {leaders.map((l, i) => (
+                <li key={l.name + i}>
+                  <span className="rank">{["🥇", "🥈", "🥉"][i] ?? `${i + 1}.`}</span>
+                  <span className="lname">{l.name}</span>
+                  <span className="lcorrect">{l.correct} 筆</span>
+                  <span className="lcount">（{l.count} 次）</span>
+                </li>
+              ))}
+            </ol>
+          </section>
         </div>
 
-        {/* 右欄：萌典字義 + 排行榜 */}
+        {/* 右欄：基本資訊 + 萌典字義 */}
         <div className="col">
+          <div className="info-card panel">
+            <h2>📖 基本資訊</h2>
+            <dl className="info-list">
+              <div className="info-row">
+                <dt>注音</dt>
+                <dd>{h?.bopomofo ?? "—"}</dd>
+              </div>
+              <div className="info-row">
+                <dt>拼音</dt>
+                <dd>{h?.pinyin ?? "—"}</dd>
+              </div>
+              <div className="info-row">
+                <dt>部首</dt>
+                <dd>{dict?.radical ?? getRadical(char)}</dd>
+              </div>
+              <div className="info-row">
+                <dt>總筆畫</dt>
+                <dd>{dict?.stroke_count ?? strokeCount ?? "—"}</dd>
+              </div>
+            </dl>
+          </div>
+
           <section className="panel dict">
             <h2>📖 萌典查詢</h2>
             {dictLoading && <p className="muted">查詢中…</p>}
@@ -226,21 +241,6 @@ export default function App() {
             <p className="muted small">
               字圖範例：<a href={moedictCharImageUrl(char)} target="_blank" rel="noreferrer">萌典《{char}》字圖</a>
             </p>
-          </section>
-
-          <section className="panel">
-            <h2>🏅 挑戰排行榜</h2>
-            {leaders.length === 0 && <p className="muted">還沒有紀錄，快來當第一名！</p>}
-            <ol className="leaders">
-              {leaders.map((l, i) => (
-                <li key={l.name + i}>
-                  <span className="rank">{["🥇", "🥈", "🥉"][i] ?? `${i + 1}.`}</span>
-                  <span className="lname">{l.name}</span>
-                  <span className="lcorrect">{l.correct} 筆</span>
-                  <span className="lcount">（{l.count} 次）</span>
-                </li>
-              ))}
-            </ol>
           </section>
         </div>
       </main>

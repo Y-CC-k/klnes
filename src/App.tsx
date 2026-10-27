@@ -25,7 +25,6 @@ export default function App() {
   const [savedMsg, setSavedMsg] = useState<string | null>(null);
 
   const chars = useMemo(() => uniqueChars(WORD_SETS[setNameIdx].chars), [setNameIdx]);
-  const h = dict?.heteronyms?.[0];
 
   const refreshLeaders = useCallback(() => {
     void loadLeaderboard().then(setLeaders);
@@ -87,8 +86,8 @@ export default function App() {
         <p className="sub">筆順動畫 ・ 引導描寫 ・ 挑戰測驗 —— 字義資料來自 萌典 API（CC0 1.0）</p>
       </header>
 
-      <main className="grid unified">
-        {/* 左欄：選字 + 基本資訊 */}
+      <main className="grid">
+        {/* 左欄：選字工具 */}
         <section className="panel">
           <h2>1️⃣ 選擇你要練的字</h2>
           <label className="field">
@@ -134,59 +133,10 @@ export default function App() {
             />
             <button onClick={applyCustom}>練這個字</button>
           </div>
-
-          <div className="info-card">
-            <h2>📖 基本資訊</h2>
-            <dl className="info-list">
-              <div className="info-row">
-                <dt>注音</dt>
-                <dd>{h?.bopomofo ?? "—"}</dd>
-              </div>
-              <div className="info-row">
-                <dt>拼音</dt>
-                <dd>{h?.pinyin ?? "—"}</dd>
-              </div>
-              <div className="info-row">
-                <dt>釋義</dt>
-                <dd className="def">
-                  {dictLoading && "查詢中…"}
-                  {!dictLoading && !dict && "查無資料"}
-                  {h?.Definitions?.[0]?.def ?? ""}
-                </dd>
-              </div>
-            </dl>
-          </div>
         </section>
 
-        {/* 中欄：巨大生字卡 + 筆順練習 */}
+        {/* 中欄：練習畫布 */}
         <div className="col">
-          <div className="big-char-card">
-            <div className="card-badge">學習中</div>
-            <span className="big-char">{char}</span>
-            <p className="muted small">點選下方按鈕開始練習</p>
-          </div>
-
-          <div className="detail-actions">
-            <button
-              className="action-btn primary"
-              onClick={() => {
-                setMode("animate");
-                setRunId((r) => r + 1);
-              }}
-            >
-              <span>▶</span> 播放筆順
-            </button>
-            <button
-              className="action-btn secondary"
-              onClick={() => {
-                setMode("guided");
-                setRunId((r) => r + 1);
-              }}
-            >
-              <span>✍️</span> 線上練寫
-            </button>
-          </div>
-
           <div className="mode-row">
             {MODES.map((m) => (
               <button

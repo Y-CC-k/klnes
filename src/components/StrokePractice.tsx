@@ -89,6 +89,9 @@ export default function StrokePractice({ char, mode, runId, onSessionComplete }:
       drawingColor: "#2563eb",
       highlightColor: "#38bdf8",
       highlightOnComplete: true,
+      strokeWidth: 5,
+      outlineWidth: 3,
+      drawingWidth: 6,
       delayBetweenStrokes: 220,
       charDataLoader,
       onLoadCharDataError: () => {

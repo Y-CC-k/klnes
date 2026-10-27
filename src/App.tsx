@@ -163,11 +163,11 @@ export default function App() {
               </div>
               <div className="info-row">
                 <dt>部首</dt>
-                <dd>{getRadical(char)}</dd>
+                <dd>{dict?.radical ?? getRadical(char)}</dd>
               </div>
               <div className="info-row">
                 <dt>總筆畫</dt>
-                <dd>{strokeCount ?? "—"}</dd>
+                <dd>{dict?.stroke_count ?? strokeCount ?? "—"}</dd>
               </div>
             </dl>
           </div>
@@ -210,7 +210,7 @@ export default function App() {
                   {h.bopomofo && <span className="bpm">{h.bopomofo}</span>}
                   {h.pinyin && <span className="py">{h.pinyin}</span>}
                 </div>
-                {h.Definitions?.slice(0, 3).map((d, j) => (
+                {h.definitions?.slice(0, 3).map((d, j) => (
                   <p key={j} className="def">
                     {d.type && <em className="tag">{d.type}</em>}
                     {d.def}

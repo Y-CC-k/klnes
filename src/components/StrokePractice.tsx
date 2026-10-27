@@ -182,7 +182,7 @@ export default function StrokePractice({ char, mode, runId, onSessionComplete }:
       <div className="practice-stats" aria-live="polite">
         <span>✅ 正確 {stats.correct} 筆</span>
         <span>❌ 錯誤 {stats.mistakes} 次</span>
-        <span>{mode === "animate" ? "看動畫學筆順" : "拖曳滑鼠照筆順描寫"}</span>
+        <span>{mode !== "animate" && "拖曳滑鼠照筆順描寫"}</span>
       </div>
 
       <div className="row">

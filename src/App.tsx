@@ -104,7 +104,7 @@ export default function App() {
 
       <main className="grid">
         {/* 左欄：選字工具 */}
-        <section className="panel">
+        <section className="panel left-panel">
           <h2>1️⃣ 選擇你要練的字</h2>
           <label className="field">
             我的名字（記錄成績用）
@@ -128,6 +128,16 @@ export default function App() {
               ))}
             </select>
           </label>
+          <div className="row">
+            <input
+              value={custom}
+              onChange={(e) => setCustom(e.target.value)}
+              placeholder="自己輸入一個字，如：龜"
+              maxLength={4}
+              onKeyDown={(e) => e.key === "Enter" && applyCustom()}
+            />
+            <button onClick={applyCustom}>練這個字</button>
+          </div>
           <div className="char-grid">
             {chars.map((c) => (
               <button
@@ -138,16 +148,6 @@ export default function App() {
                 {c}
               </button>
             ))}
-          </div>
-          <div className="row">
-            <input
-              value={custom}
-              onChange={(e) => setCustom(e.target.value)}
-              placeholder="自己輸入一個字，如：龜"
-              maxLength={4}
-              onKeyDown={(e) => e.key === "Enter" && applyCustom()}
-            />
-            <button onClick={applyCustom}>練這個字</button>
           </div>
         </section>
         <div className="col">

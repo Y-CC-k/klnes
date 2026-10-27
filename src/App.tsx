@@ -115,6 +115,16 @@ export default function App() {
               maxLength={12}
             />
           </label>
+          <div className="row">
+            <input
+              value={custom}
+              onChange={(e) => setCustom(e.target.value)}
+              placeholder="自己輸入一個字，如：龜"
+              maxLength={4}
+              onKeyDown={(e) => e.key === "Enter" && applyCustom()}
+            />
+            <button onClick={applyCustom}>練這個字</button>
+          </div>
           <label className="field">
             字表
             <select
@@ -128,16 +138,6 @@ export default function App() {
               ))}
             </select>
           </label>
-          <div className="row">
-            <input
-              value={custom}
-              onChange={(e) => setCustom(e.target.value)}
-              placeholder="自己輸入一個字，如：龜"
-              maxLength={4}
-              onKeyDown={(e) => e.key === "Enter" && applyCustom()}
-            />
-            <button onClick={applyCustom}>練這個字</button>
-          </div>
           <div className="char-grid">
             {chars.map((c) => (
               <button

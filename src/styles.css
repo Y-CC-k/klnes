@@ -141,7 +141,22 @@ button:hover { border-color: var(--primary); }
 .lcorrect { color: var(--primary); font-weight: 700; }
 .lcount { color: var(--muted); font-size: 0.8rem; }
 
-.muted { color: var(--muted); }
+.info-card { margin-top: 12px; }
+.info-card h2 { margin: 2px 0 10px; font-size: 1.05rem; }
+.info-list { margin: 0; }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f8fafc;
+  margin-bottom: 8px;
+}
+.info-row dt { font-weight: 700; color: var(--muted); font-size: 0.9rem; }
+.info-row dd { font-weight: 800; font-size: 1.2rem; margin: 0; }
+.info-row .def { font-size: 0.95rem; font-weight: 500; text-align: right; max-width: 60%; }
 .small { font-size: 0.8rem; }
 .foot {
   display: flex;

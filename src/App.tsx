@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import StrokePractice, { type PracticeMode, type StrokeEvent } from "./components/StrokePractice";
-import { WORD_SETS, uniqueChars } from "./lib/characters";
+import { WORD_SETS, uniqueChars, getRadical } from "./lib/characters";
 import { lookupMoedict, moedictCharImageUrl, type MoedictEntry } from "./lib/moedict";
 import { loadLeaderboard, saveResult, type LeaderRow } from "./lib/supabase";
 
@@ -23,8 +23,10 @@ export default function App() {
   const [dictLoading, setDictLoading] = useState(false);
   const [leaders, setLeaders] = useState<LeaderRow[]>([]);
   const [savedMsg, setSavedMsg] = useState<string | null>(null);
+  const [strokeCount, setStrokeCount] = useState<number | null>(null);
 
   const chars = useMemo(() => uniqueChars(WORD_SETS[setNameIdx].chars), [setNameIdx]);
+  const h = dict?.heteronyms?.[0];
 
   const refreshLeaders = useCallback(() => {
     void loadLeaderboard().then(setLeaders);
@@ -42,6 +44,20 @@ export default function App() {
         setDictLoading(false);
       }
     });
+    return () => {
+      alive = false;
+    };
+  }, [char]);
+
+  useEffect(() => {
+    let alive = true;
+    setStrokeCount(null);
+    fetch(`https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0/${encodeURIComponent(char)}.json`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (alive && data?.strokes) setStrokeCount(data.strokes.length);
+      })
+      .catch(() => {});
     return () => {
       alive = false;
     };
@@ -133,9 +149,29 @@ export default function App() {
             />
             <button onClick={applyCustom}>練這個字</button>
           </div>
-        </section>
 
-        {/* 中欄：練習畫布 */}
+          <div className="info-card">
+            <h2>📖 基本資訊</h2>
+            <dl className="info-list">
+              <div className="info-row">
+                <dt>注音</dt>
+                <dd>{h?.bopomofo ?? "—"}</dd>
+              </div>
+              <div className="info-row">
+                <dt>拼音</dt>
+                <dd>{h?.pinyin ?? "—"}</dd>
+              </div>
+              <div className="info-row">
+                <dt>部首</dt>
+                <dd>{getRadical(char)}</dd>
+              </div>
+              <div className="info-row">
+                <dt>總筆畫</dt>
+                <dd>{strokeCount ?? "—"}</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
         <div className="col">
           <div className="mode-row">
             {MODES.map((m) => (

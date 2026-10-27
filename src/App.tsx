@@ -111,7 +111,7 @@ export default function App() {
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="例如：小美"
+              placeholder="例如：槺榔"
               maxLength={12}
             />
           </label>

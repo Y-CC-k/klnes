@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import StrokePractice, { type PracticeMode, type StrokeEvent } from "./components/StrokePractice";
+import CharacterDetail from "./components/CharacterDetail";
 import { WORD_SETS, uniqueChars } from "./lib/characters";
 import { lookupMoedict, moedictCharImageUrl, type MoedictEntry } from "./lib/moedict";
 import { loadLeaderboard, saveResult, type LeaderRow } from "./lib/supabase";
@@ -23,6 +24,7 @@ export default function App() {
   const [dictLoading, setDictLoading] = useState(false);
   const [leaders, setLeaders] = useState<LeaderRow[]>([]);
   const [savedMsg, setSavedMsg] = useState<string | null>(null);
+  const [view, setView] = useState<"practice" | "detail">("practice");
 
   const chars = useMemo(() => uniqueChars(WORD_SETS[setNameIdx].chars), [setNameIdx]);
 
@@ -86,7 +88,37 @@ export default function App() {
         <p className="sub">筆順動畫 ・ 引導描寫 ・ 挑戰測驗 —— 字義資料來自 萌典 API（CC0 1.0）</p>
       </header>
 
-      <main className="grid">
+      <div className="view-tabs">
+        <button
+          className={`view-tab ${view === "practice" ? "active" : ""}`}
+          onClick={() => setView("practice")}
+        >
+          ✍️ 筆順練習
+        </button>
+        <button
+          className={`view-tab ${view === "detail" ? "active" : ""}`}
+          onClick={() => setView("detail")}
+        >
+          📖 國字詳細學習
+        </button>
+      </div>
+
+      {view === "detail" ? (
+        <CharacterDetail
+          char={char}
+          onPlayStroke={() => {
+            setMode("animate");
+            setView("practice");
+            setRunId((r) => r + 1);
+          }}
+          onPractice={() => {
+            setMode("guided");
+            setView("practice");
+            setRunId((r) => r + 1);
+          }}
+        />
+      ) : (
+        <main className="grid">
         {/* 左欄：選字工具 */}
         <section className="panel">
           <h2>1️⃣ 選擇你要練的字</h2>
@@ -208,6 +240,7 @@ export default function App() {
           </section>
         </div>
       </main>
+      )}
 
       <footer className="foot">
         <span>

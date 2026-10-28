@@ -7,7 +7,7 @@
 - **Vite + React + TypeScript**
 - **hanzi-writer** — 筆順動畫與描寫測驗引擎（字形資料為 hanzi-writer-data，CC BY-SA 3.0）
 - **萌典 API (Moedict, g0v)** — 查注音與字義，資料授權 **CC0 1.0**
-  - 端點：`GET https://www.moedict.tw/a/{字}.json`、字圖 `https://www.moedict.tw/uni/{字}.svg`
+  - 端點：`GET https://www.moedict.tw/uni/{字}.json`、字圖 `https://www.moedict.tw/uni/{字}.svg`
 - **Supabase** — 儲存練習紀錄 `stroke_results` 資料表並產生排行榜
 
 ## Supabase 資料表

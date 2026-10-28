@@ -54,6 +54,7 @@ function charDataLoader(
 
 export default function StrokePractice({ char, mode, runId, onSessionComplete }: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const writerRef = useRef<HanziWriter | null>(null);
   const startRef = useRef(Date.now());
   const doneRef = useRef(false);
@@ -64,6 +65,30 @@ export default function StrokePractice({ char, mode, runId, onSessionComplete }:
   const [stats, setStats] = useState({ correct: 0, mistakes: 0, total: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [boardSize, setBoardSize] = useState(320);
+
+  // 依視窗大小調整寫字板，填滿可用空間
+  useEffect(() => {
+    const compute = () => {
+      const wrap = wrapRef.current;
+      if (!wrap) return;
+      const availW = wrap.clientWidth - 16;
+      const availH = window.matchMedia("(max-width: 1000px)").matches
+        ? window.innerHeight - 320
+        : wrap.clientHeight - 8;
+      const s = Math.max(260, Math.min(680, Math.floor(Math.min(availW, availH) / 20) * 20));
+      setBoardSize((prev) => (Math.abs(prev - s) >= 40 ? s : prev));
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    const wrap = wrapRef.current;
+    const ro = wrap ? new ResizeObserver(compute) : null;
+    if (wrap && ro) ro.observe(wrap);
+    return () => {
+      window.removeEventListener("resize", compute);
+      ro?.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -80,8 +105,8 @@ export default function StrokePractice({ char, mode, runId, onSessionComplete }:
     host.innerHTML = "";
 
     const writer = HanziWriter.create(host, char, {
-      width: 320,
-      height: 320,
+      width: boardSize,
+      height: boardSize,
       padding: 20,
       strokeColor: "#1f2937",
       radicalColor: "#15803d",
@@ -152,7 +177,7 @@ export default function StrokePractice({ char, mode, runId, onSessionComplete }:
       if (writerRef.current === writer) writerRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [char, mode, runId]);
+  }, [char, mode, runId, boardSize]);
 
   const playOnce = () => {
     const w = writerRef.current;
@@ -176,7 +201,7 @@ export default function StrokePractice({ char, mode, runId, onSessionComplete }:
         </div>
       </div>
 
-      <div className="writer-host-wrap">
+      <div className="writer-host-wrap" ref={wrapRef}>
         {loading && <p className="muted">字形載入中…</p>}
         {error && <p className="muted">無法載入「{char}」的字形資料，試試別的字吧。</p>}
         <div ref={hostRef} className="writer-host" data-error={error || undefined} />

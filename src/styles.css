@@ -114,9 +114,9 @@ button:hover { border-color: var(--primary); }
 .save-msg { color: var(--accent); font-size: 0.9rem; text-align: center; }
 
 .heteronym { margin-bottom: 10px; }
-.bpm { font-size: 1.15rem; color: #b91c1c; font-weight: 700; margin-right: 8px; }
-.py { color: var(--muted); font-size: 0.85rem; }
-.def { margin: 6px 0 0; line-height: 1.5; font-size: 0.92rem; }
+.bpm { font-size: 1.7rem; color: #b91c1c; font-weight: 700; margin-right: 8px; }
+.py { color: var(--muted); font-size: 1.15rem; }
+.def { margin: 6px 0 0; line-height: 1.65; font-size: 1.15rem; }
 .tag {
   font-style: normal;
   background: #f1f5f9;
@@ -124,9 +124,9 @@ button:hover { border-color: var(--primary); }
   border-radius: 6px;
   padding: 1px 6px;
   margin-right: 6px;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
-.ex { display: block; color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
+.ex { display: block; color: var(--muted); font-size: 1.02rem; margin-top: 2px; }
 
 .leaders { margin: 0; padding-left: 4px; list-style: none; }
 .leaders li {
